@@ -54,11 +54,11 @@ async def on_ready():
     print("Username: ", bot.user.name)
     print("User ID: ", bot.user.id)
 
-@bot.event
+@bot.event # load des cogs
 async def setup_hook() -> None:
     for extension in EXTENSIONS:
         await bot.load_extension(extension)
-    synced = await bot.tree.sync() #sync ici
+    synced = await bot.tree.sync() # sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run('MTE3MDI3MTEzNTU5MDUzNTIyOA.GppgyP.zp5_HWRRRxnjITAac4HljaXouhtnvDiOQq3cQE')
+bot.run('token ici')

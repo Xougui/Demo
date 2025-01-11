@@ -19,7 +19,7 @@ class Sélecteur(View):
             options = [
                 discord.SelectOption(
                     label="Jour", #le texte
-                    emoji="🌞", #l'émoji (facultatif
+                    emoji="🌞", #l'émoji (facultatif)
                     value="0x1", #la valeur pour la fonction d'après
                     description="Températutre du jour" #la description
                 ),
@@ -40,7 +40,7 @@ class Sélecteur(View):
                         description="C'est cool"
                     ))
             else:
-                select.disabled = True #sinon il désactive le select
+                select.disabled = True # sinon il désactive le select
         await interaction.response.edit_message(view=self) #modifie le message avec la fonction (le self) il rajoute donc une select
         await interaction.followup.send(f"Tu as choisi: {select.values}") #la réponse qui te dit ce que tu as choisis
 

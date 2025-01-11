@@ -19,17 +19,17 @@ class Boutton(View):
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Gray Button", style=discord.ButtonStyle.gray)  # or .secondary/.grey
+    @discord.ui.button(label="Gray Button", style=discord.ButtonStyle.gray)  # ou .secondary/.grey
     async def gray_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Green Button", style=discord.ButtonStyle.green)  # or .success
+    @discord.ui.button(label="Green Button", style=discord.ButtonStyle.green)  # ou .success
     async def green_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Red Button", style=discord.ButtonStyle.red)  # or .danger
+    @discord.ui.button(label="Red Button", style=discord.ButtonStyle.red)  # ou .danger
     async def red_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         button.disabled = True
         await interaction.response.edit_message(view=self)
@@ -57,7 +57,7 @@ class CogButton(commands.Cog):
 
 @bot.event
 async def setup_hook() -> None:
-    synced = await bot.tree.sync() #sync ici
+    synced = await bot.tree.sync() # sync ici
     print(f"Synced {len(synced)} commands")
 
 async def setup(bot):
