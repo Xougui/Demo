@@ -44,7 +44,7 @@ class Sélecteur(View):
         await interaction.response.edit_message(view=self) #modifie le message avec la fonction (le self) il rajoute donc une select
         await interaction.followup.send(f"Tu as choisi: {select.values}") #la réponse qui te dit ce que tu as choisis
 
-class Test(commands.Cog):
+class CogSélecteur(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -64,4 +64,4 @@ async def setup_hook() -> None:
     print(f"Synced {len(synced)} commands")
 
 async def setup(bot):
-    await bot.add_cog(Test(bot))
+    await bot.add_cog(CogSélecteur(bot))

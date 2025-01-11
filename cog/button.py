@@ -40,7 +40,7 @@ class Boutton(View):
             child.disabled = True
         await interaction.response.edit_message(view=self)
 
-class Test(commands.Cog):
+class CogButton(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -61,4 +61,4 @@ async def setup_hook() -> None:
     print(f"Synced {len(synced)} commands")
 
 async def setup(bot):
-    await bot.add_cog(Test(bot))
+    await bot.add_cog(CogButton(bot))
