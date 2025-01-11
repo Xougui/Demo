@@ -89,10 +89,10 @@ class Test(commands.Cog):
         await interaction.response.send_message("Ce message a un sélecteur", view=view)
         
     @bot.tree.command(name="button", description="jsp")
-    async def button(self, ctx):
+    async def button(self, interaction: discord.Interaction):
         view = Boutton()
         view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/kadbot/tree/master"))
-        await ctx.send("Ce message a des boutons!", view=view)
+        await interaction.response.send_message("Ce message a des boutons!", view=view)
 
 @bot.event
 async def setup_hook() -> None:
