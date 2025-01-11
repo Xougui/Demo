@@ -5,7 +5,7 @@ from discord import app_commands
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-EXTENSIONS = ("cog.cog exemple")
+EXTENSIONS = ("cog.cog exemple", "cog.button")
 
 def isOwner(ctx):
     return ctx.message.author.id == 946098490654740580 #ton identifiant
