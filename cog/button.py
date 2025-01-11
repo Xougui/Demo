@@ -10,7 +10,7 @@ bot = commands.Bot(command_prefix='*', intents=intents)
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-class MySelectView(View):
+class Sélecteur(View):
 
     @discord.ui.select(
             min_values=1, #peut pas mettre moins que 1 choix
@@ -68,7 +68,7 @@ class Boutton(View):
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Change All", style=discord.ButtonStyle.success)
+    @discord.ui.button(label="desactiver tout", style=discord.ButtonStyle.success)
     async def color_changing_button(self, interaction: discord.Interaction, child: discord.ui.Button):
         for child in self.children:
             child.disabled = True
@@ -83,16 +83,16 @@ class Test(commands.Cog):
     async def on_ready(self):
         print("Cog loaded : button")
 
-    @bot.tree.command(name="test", description="jsp")
+    @bot.tree.command(name="sélecteur", description="jsp")
     async def coucou(self, interaction: discord.Interaction):
-        view = MySelectView()
-        await interaction.response.send_message("choisi un option de test", view=view)
+        view = Sélecteur()
+        await interaction.response.send_message("Ce message a un sélecteur", view=view)
         
-    @bot.command()
+    @bot.tree.command(name="button", description="jsp")
     async def button(self, ctx):
         view = Boutton()
         view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/kadbot/tree/master"))
-        await ctx.send("This message has buttons!", view=view)
+        await ctx.send("Ce message a des boutons!", view=view)
 
 @bot.event
 async def setup_hook() -> None:
