@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 from discord import app_commands
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='*', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
