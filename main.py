@@ -5,7 +5,7 @@ from discord import app_commands
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-EXTENSIONS = ("cog.cog exemple", "cog.button")
+EXTENSIONS = ("cog.cog_exemple", "cog.button")
 
 def isOwner(ctx):
     return ctx.message.author.id == 946098490654740580 #ton identifiant
@@ -19,9 +19,6 @@ async def start(ctx, secondes = 3):
 async def change_status():
     status = ["statut"]
     await bot.change_presence(status = discord.Status.online, activity = discord.Game(random.choice(status)))
-
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
 
 # COMMANDE DU BOT qu'on peut pas mettre dans un cog ⬇
 
@@ -64,4 +61,4 @@ async def setup_hook() -> None:
     synced = await bot.tree.sync() #sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run('token ici')
+bot.run('MTE3MDI3MTEzNTU5MDUzNTIyOA.GeqRmW.oiLkmiYRbtbt6YybfX9x6alJoiWuJCvDfH67_4')

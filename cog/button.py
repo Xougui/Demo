@@ -81,20 +81,17 @@ class Test(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Cog loaded : Test")
+        print("Cog loaded : button")
 
     @bot.tree.command(name="test", description="jsp")
-    async def coucou(ctx):
+    async def coucou(self, interaction: discord.Interaction):
         view = MySelectView()
-
-        print(view)
-        await ctx.response.send_message("choisi un option de test", view=view)
-        print("envoyé")
+        await interaction.response.send_message("choisi un option de test", view=view)
         
     @bot.command()
     async def button(self, ctx):
         view = Boutton()
-        view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://gist.github.com/lykn/bac99b06d45ff8eed34c2220d86b6bf4"))
+        view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/kadbot/tree/master"))
         await ctx.send("This message has buttons!", view=view)
 
 @bot.event
