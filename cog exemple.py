@@ -19,6 +19,9 @@ class Exemple(commands.Cog):
 
     # -------------------------------------------------------------------------
     # -----------------------code ici------------------------------------------
+    @bot.tree.command(name="exemple", description="Affiche le ping du bot (latence).")
+    async def ping(self,interaction: discord.Interaction):
+        await interaction.response.send_message("Exemple")
     # -------------------------------------------------------------------------
 
 @bot.event
