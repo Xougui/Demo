@@ -61,4 +61,4 @@ async def setup_hook() -> None:
     synced = await bot.tree.sync() #sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run('MTE3MDI3MTEzNTU5MDUzNTIyOA.GeqRmW.oiLkmiYRbtbt6YybfX9x6alJoiWuJCvDfH67_4')
+bot.run('token')
