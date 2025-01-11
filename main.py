@@ -5,7 +5,7 @@ from discord import app_commands
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-EXTENSIONS = ("cog.cog_exemple", "cog.button") #pr le nom des fichiers pas obligé de mettre un "_" pr les espaces. t'as le droit d'en mettre
+EXTENSIONS = ("cog.cog_exemple", "cog.button", "cog.sélecteur") #pr le nom des fichiers pas obligé de mettre un "_" pr les espaces. t'as le droit d'en mettre
 
 def isOwner(ctx):
     return ctx.message.author.id == 946098490654740580 #ton identifiant

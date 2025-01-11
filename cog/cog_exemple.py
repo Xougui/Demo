@@ -15,7 +15,7 @@ class Exemple(commands.Cog):
             
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Cog loaded : cog exemple")
+        print("Cog loaded : cog_exemple")
 
     # -------------------------------------------------------------------------
     # -----------------------code ici------------------------------------------
