@@ -45,6 +45,24 @@ async def on_command_error(ctx, error):
 		await ctx.send("Oups vous ne pouvez iutilisez cette commande.")
 	if isinstance(error.original, discord.Forbidden):
 		await ctx.send("Oups, je n'ai pas les permissions nécéssaires pour faire cette commmande")
+            
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if bot.user in message.mentions:
+        embed = discord.Embed(
+            title="Qui donc m'a mentionné ?",
+            description=(
+                "Voici toute une liste de liens qui pourraient t'être utiles\n "
+                + "coucou mes bebous\n "
+                + "mamamia"
+            ),
+            color=discord.Color.blue()
+        )
+        embed.set_footer(text="Créé avec amour par mon développeur @kadawatcha ?")
+        await message.channel.send(embed=embed)
 
 @bot.event
 async def on_ready():
