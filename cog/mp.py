@@ -56,8 +56,6 @@ class MP(commands.Cog):  # essaye de mettre le nom du cog avc un MAJUSCULE au de
         await salon.send(embed=embed_compteur)  # Envoi le message dans le salon spécifié
         await interaction.response.send_message(f"Votre compteur a bien été définit dans {salon.mention} commence par envoyer le numéro 1 !", ephemeral=True)
 
-
-
 @bot.event
 async def setup_hook() -> None:
     synced = await bot.tree.sync() #sync ici
