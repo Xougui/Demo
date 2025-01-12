@@ -2,7 +2,6 @@ import discord
 import random
 from discord.ext import commands, tasks
 from discord import app_commands
-import Token
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -79,4 +78,4 @@ async def setup_hook() -> None:
     synced = await bot.tree.sync() # sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run(Token.token)
+bot.run("met le token ici pr éviter les bugs en allant chercher dans un autre fichier")

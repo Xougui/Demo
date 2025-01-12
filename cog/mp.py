@@ -48,8 +48,8 @@ class MP(commands.Cog):  # essaye de mettre le nom du cog avc un MAJUSCULE au de
             await interaction.response.send_message(f"Une erreur s'est produite : {str(e)}", ephemeral=True)
 
     @bot.tree.command(name="compteur", description="configurer un compteur de serveur")
-    async def envoyer(interaction: discord.Interaction, salon: discord.TextChannel):
-        if not isinstance(interaction.user, discord.Member) or not interaction.user.guild_permissions.administrator:
+    async def envoyer(self, interaction: discord.Interaction, salon: discord.channel.TextChannel):
+        if not interaction.user.guild_permissions.administrator:
             if not interaction.user.guild_permissions.administrator:
                 await interaction.response.send_message("Vous devez avoir la permission d'administrateur pour utiliser cette commande.", ephemeral=True)
             return
