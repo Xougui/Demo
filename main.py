@@ -6,7 +6,7 @@ import Token
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-EXTENSIONS = ("cog.mp")  # Spécifie le chemin avec le sous-dossier "cog"
+EXTENSIONS = ("cog.mp", "cog.exemple_cog", "cog.sélecteur", "cog.button")  # Spécifie le chemin avec le sous-dossier "cog"
 
 def isOwner(ctx):
     return ctx.author.id == 1178647820052467823
