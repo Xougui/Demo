@@ -47,15 +47,6 @@ class MP(commands.Cog):  # essaye de mettre le nom du cog avc un MAJUSCULE au de
         except Exception as e:
             await interaction.response.send_message(f"Une erreur s'est produite : {str(e)}", ephemeral=True)
 
-    @bot.tree.command(name="compteur", description="configurer un compteur de serveur")
-    async def envoyer(self, interaction: discord.Interaction, salon: discord.channel.TextChannel):
-        if not interaction.user.guild_permissions.administrator:
-            await interaction.response.send_message("Vous devez avoir la permission d'administrateur pour utiliser cette commande.", ephemeral=True)
-            return
-        embed_compteur = discord.Embed(title="Configuration du compteur", description=f"Le compteur a bien été définit dans {salon.mention}\n Commence par envoyer le numéro 1 !", color=discord.Color.green())
-        await salon.send(embed=embed_compteur)  # Envoi le message dans le salon spécifié
-        await interaction.response.send_message(f"Votre compteur a bien été définit dans {salon.mention} commence par envoyer le numéro 1 !", ephemeral=True)
-
 @bot.event
 async def setup_hook() -> None:
     synced = await bot.tree.sync() #sync ici

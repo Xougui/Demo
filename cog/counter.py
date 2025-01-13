@@ -37,8 +37,8 @@ class Counter(commands.Cog):
             with open('counter.json', 'w') as f:
                 json.dump({"guilds": compteurs}, f, indent=4)
 
-    @app_commands.command(name="compteur", description="Configurer un compteur de serveur")
-    async def envoyer(self, interaction: discord.Interaction, salon: discord.TextChannel):
+    @app_commands.command(name="compteur-set", description="Configurer un compteur de serveur")
+    async def compteur(self, interaction: discord.Interaction, salon: discord.TextChannel):
         if not interaction.user.guild_permissions.administrator:
             await interaction.response.send_message("Vous devez avoir la permission d'administrateur pour utiliser cette commande.", ephemeral=True)
             return
@@ -58,8 +58,8 @@ class Counter(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author == self.bot.user:
-            return  
+        if message.author.id == self.bot.user.id:
+            return 
 
         compteurs = self.charger_compteurs()
 

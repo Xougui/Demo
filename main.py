@@ -5,7 +5,7 @@ from discord import app_commands
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-EXTENSIONS = ("cog.mp", "cog.exemple_cog", "cog.sélecteur", "cog.button")  # Spécifie le chemin avec le sous-dossier "cog"
+EXTENSIONS = ("cog.mp", "cog.exemple_cog", "cog.sélecteur", "cog.button", "cog.counter")  # Spécifie le chemin avec le sous-dossier "cog"
 
 def isOwner(ctx):
     return ctx.author.id == 1178647820052467823
@@ -78,4 +78,4 @@ async def setup_hook() -> None:
     synced = await bot.tree.sync() # sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run("met le token ici pr éviter les bugs en allant chercher dans un autre fichier")
+bot.run('MTE3MDI3MTEzNTU5MDUzNTIyOA.GC_eUF.6urFzKh3_WM09sn6JorFxlhvibx9CWSIxzt-dY')
