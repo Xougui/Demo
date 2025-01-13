@@ -87,10 +87,10 @@ class Counter(commands.Cog):
                     
                     await message.delete()
 
-async def setup(bot):
-    await bot.add_cog(Counter(bot))
-
 @bot.event
 async def setup_hook() -> None:
     synced = await bot.tree.sync() #sync ici
     print(f"Synced {len(synced)} commands")
+
+async def setup(bot):
+    await bot.add_cog(Counter(bot))
