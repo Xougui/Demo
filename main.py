@@ -78,6 +78,7 @@ async def on_interaction(interaction):
         author = interaction.user
         channel = interaction.channel
         guild = interaction.guild
+        options = interaction.data.get('options', [])
 
         # Créez un embed pour les logs
         log_embed = discord.Embed(
@@ -87,8 +88,9 @@ async def on_interaction(interaction):
         log_embed.add_field(name="Auteur", value=author.mention, inline=True)
         log_embed.add_field(name="Salon", value=channel.mention, inline=True)
         log_embed.add_field(name="Serveur", value=guild.name, inline=True)
-        if command_content:
-            log_embed.add_field(name="Contenu", value=command_content, inline=False)
+
+        for option in options:
+            log_embed.add_field(name=option.get('name'), value=option.get('value'), inline=False)
 
         # Récupérez le message de la commande
         message = await interaction.original_response()
