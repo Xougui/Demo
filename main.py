@@ -3,6 +3,7 @@ import random
 from discord.ext import commands, tasks
 from discord import app_commands
 
+
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 EXTENSIONS = ("cog.mp", "cog.exemple_cog", "cog.sélecteur", "cog.button", "cog.test_compteur", "cog.tests")  # Spécifie le chemin avec le sous-dossier "cog"
@@ -62,6 +63,43 @@ async def on_command_error(ctx, error):
         await ctx.send("Je n'ai pas les permissions nécessaires pour exécuter cette commande.")
     else:
         await ctx.send(f"Une erreur inattendue s'est produite : {error}")
+
+log_channel_id = 1267467310445236224  # ID du salon où envoyer les logs
+log_server_id = 1046104471089983568  # ID du serveur où envoyer les logs
+
+# Créez un événement qui écoute les commandes bot.tree
+@bot.event
+async def on_interaction(interaction):
+    # Vérifiez si l'interaction est une commande bot.tree
+    if interaction.type == discord.InteractionType.application_command:
+        # Récupérez les informations de la commande
+        command_name = interaction.data.get('name')
+        command_content = interaction.data.get('options', [{}])[0].get('value') if interaction.data.get('options') else None
+        author = interaction.user
+        channel = interaction.channel
+        guild = interaction.guild
+
+        # Créez un embed pour les logs
+        log_embed = discord.Embed(
+            title=f"Commande {command_name} exécutée",
+            color=0x00ff00
+        )
+        log_embed.add_field(name="Auteur", value=author.mention, inline=True)
+        log_embed.add_field(name="Salon", value=channel.mention, inline=True)
+        log_embed.add_field(name="Serveur", value=guild.name, inline=True)
+        if command_content:
+            log_embed.add_field(name="Contenu", value=command_content, inline=False)
+
+        # Récupérez le message de la commande
+        message = await interaction.original_response()
+
+        # Ajoutez le lien du message de la commande aux logs
+        if message:
+            log_embed.add_field(name="Lien du message", value=message.jump_url, inline=False)
+
+        # Envoyez les logs dans le salon spécifique
+        log_channel = bot.get_channel(log_channel_id)
+        await log_channel.send(embed=log_embed)
 
 @bot.event
 async def on_ready():
