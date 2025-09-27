@@ -8,7 +8,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-class MP(commands.Cog):  # essaye de mettre le nom du cog avc un MAJUSCULE au debut
+class MP(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -47,10 +47,6 @@ class MP(commands.Cog):  # essaye de mettre le nom du cog avc un MAJUSCULE au de
         except Exception as e:
             await interaction.response.send_message(f"Une erreur s'est produite : {str(e)}", ephemeral=True)
 
-@bot.event
-async def setup_hook() -> None:
-    synced = await bot.tree.sync() #sync ici
-    print(f"Synced {len(synced)} commands")
 
 async def setup(bot):
     await bot.add_cog(MP(bot))
