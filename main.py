@@ -1,24 +1,27 @@
 import discord
 import random
+import os
 from discord.ext import commands, tasks
 from discord import app_commands
+from dotenv import load_dotenv
 
+load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")
+OWNER_ID = int(os.getenv("OWNER_ID"))
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 
-# Mettre les extentiions une par une ou créer une fonction qui les charge toutes automatiquement 
-# ici on les met une par une ( ne pas oublier la VIRGULE entre chaque cog )
+# List of cogs to load on startup
 EXTENSIONS = ("cog.mp",
-               "cog.exemple_cog",
-               "cog.selecteur",
-               "cog.button", 
-               "cog.test_compteur",
-                "cog.tests", 
-                "cog.Layout_exemple",
-                "cog.counter",
-                "cog.persistant")
+              "cog.exemple_cog",
+              "cog.selecteur",
+              "cog.button",
+              "cog.test_compteur",
+              "cog.Layout_exemple",
+              "cog.counter",
+              "cog.persistent")
 
 
 def isOwner(ctx):
@@ -30,7 +33,7 @@ def isOwner(ctx):
     Returns:
         bool: True if the author is the owner, False otherwise.
     """
-    return ctx.author.id == 1178647820052467823
+    return ctx.author.id == OWNER_ID
 
 @bot.command()
 @commands.check(isOwner)
@@ -191,4 +194,4 @@ async def setup_hook() -> None:
     synced = await bot.tree.sync() # sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run('token')
+bot.run(TOKEN)
