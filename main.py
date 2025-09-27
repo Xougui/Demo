@@ -81,15 +81,15 @@ async def on_message(message):
 
     if bot.user in message.mentions:
         embed = discord.Embed(
-            title="Qui donc m'a mentionné ?",
+            title="Who mentioned me?",
             description=(
-                "Voici toute une liste de liens qui pourraient t'être utiles\n "
-                + "coucou mes bebous\n "
-                + "mamamia"
+                "Here is a list of links that might be useful to you!\n"
+                "- Link 1\n"
+                "- Link 2"
             ),
             color=discord.Color.blue()
         )
-        embed.set_footer(text="Créé avec amour par mon développeur @kadawatcha ?")
+        embed.set_footer(text="Created with love by my developer.")
         await message.channel.send(embed=embed)
 
 @bot.command()

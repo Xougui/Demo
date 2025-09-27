@@ -95,7 +95,7 @@ class CogButton(commands.Cog):
             interaction (discord.Interaction): The interaction object.
         """
         view = ButtonView()
-        view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/kadbot/tree/master"))
+        view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/demobot/tree/master"))
         await interaction.response.send_message("This message has buttons!", view=view)
 
 async def setup(bot: commands.Bot):

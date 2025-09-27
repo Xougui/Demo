@@ -1,6 +1,6 @@
-# KadBot
+# DemoBot
 
-KadBot is a multi-purpose Discord bot with a variety of features, including moderation, utility, and fun commands. It's built with Python using the `discord.py` library.
+DemoBot is a multi-purpose Discord bot with a variety of features, including moderation, utility, and fun commands. It's built with Python using the `discord.py` library.
 
 ## Features
 
