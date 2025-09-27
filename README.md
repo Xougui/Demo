@@ -49,16 +49,16 @@ Here is a list of the main commands available:
 
 ### Fun & Utility
 
-*   `/counter [salon]`: Sets up a counting channel. Users must count in sequential order without posting twice in a row. (Requires Administrator permission).
+*   `/counter [channel]`: Sets up a counting channel. Users must count in sequential order without posting twice in a row. (Requires Administrator permission).
 *   `/button`: Displays a message with various interactive buttons.
-*   `/selecteur`: Displays a message with an interactive select menu.
+*   `/selector`: Displays a message with an interactive select menu.
 *   `/testbutton`: Displays a message with a persistent button that works even after the bot restarts.
 *   `/test-layout`: Shows an example of a more advanced message layout.
 
 ### Admin Commands
 
-*   `/mp [membre] [contenu]`: Sends a direct message to the specified member from the bot's account. (Requires Administrator permission).
-*   `!start [secondes]`: Changes the interval for the bot's status rotation. (Bot owner only).
+*   `/mp [member] [content]`: Sends a direct message to the specified member from the bot's account. (Requires Administrator permission).
+*   `!start [seconds]`: Changes the interval for the bot's status rotation. (Bot owner only).
 
 ## Cogs
 
@@ -66,8 +66,8 @@ The bot's functionality is organized into cogs (extensions), which can be found 
 
 *   `mp.py`: Handles the private messaging command.
 *   `counter.py`: Manages the counting channel feature.
-*   `button.py`, `selecteur.py`, `Layout_exemple.py`, `persistant.py`: Contain examples of various UI components.
+*   `button.py`, `selecteur.py`, `layout_example.py`, `persistent.py`: Contain examples of various UI components.
 *   `test_counter.py`: An alternative implementation of the counting game using local files.
-*   `exemple_cog.py`, `tests.py`: Simple example cogs.
+*   `example_cog.py`, `tests.py`: Simple example cogs.
 
 **Note:** The original `cog/sélecteur.py` file remains in the repository due to a tool limitation that prevented its deletion. The bot now uses `cog/selecteur.py` instead.
