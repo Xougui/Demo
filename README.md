@@ -28,10 +28,15 @@ DemoBot is a multi-purpose Discord bot with a variety of features, including mod
     ```
 
 3.  **Configure the bot:**
-    *   Open `main.py`.
-    *   At the very bottom of the file, find the line `bot.run('token')` and replace `'token'` with your actual Discord bot token.
-    *   (Optional) Customize the `log_channel_id` and `log_server_id` variables for command logging.
-    *   (Optional) Customize the status message in the `change_status` task.
+    *   Create a file named `.env` in the root directory of the project.
+    *   Add the following lines to the `.env` file:
+        ```
+        DISCORD_TOKEN="your_bot_token_here"
+        OWNER_ID="your_user_id_here"
+        ```
+    *   Replace `"your_bot_token_here"` with your actual Discord bot token.
+    *   Replace `"your_user_id_here"` with your Discord user ID to be able to use owner-only commands.
+    *   (Optional) In `main.py`, you can still customize the `log_channel_id` and `log_server_id` variables for command logging, and the status message in the `change_status` task.
 
 4.  **Run the bot:**
     ```bash
@@ -68,6 +73,4 @@ The bot's functionality is organized into cogs (extensions), which can be found 
 *   `counter.py`: Manages the counting channel feature.
 *   `button.py`, `selecteur.py`, `layout_example.py`, `persistent.py`: Contain examples of various UI components.
 *   `test_counter.py`: An alternative implementation of the counting game using local files.
-*   `example_cog.py`, `tests.py`: Simple example cogs.
-
-**Note:** The original `cog/sélecteur.py` file remains in the repository due to a tool limitation that prevented its deletion. The bot now uses `cog/selecteur.py` instead.
+*   `example_cog.py`: A simple example cog.
