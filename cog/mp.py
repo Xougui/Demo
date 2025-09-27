@@ -39,9 +39,11 @@ class DirectMessage(commands.Cog):
         except discord.Forbidden:
             await interaction.response.send_message("I cannot send DMs to this user. They may have DMs disabled.", ephemeral=True)
         except discord.HTTPException as e:
-            await interaction.response.send_message(f"An error occurred while sending the message: {e}", ephemeral=True)
+            print(f"An error occurred while sending the DM: {e}")
+            await interaction.response.send_message("An error occurred while trying to send the message.", ephemeral=True)
         except Exception as e:
-            await interaction.response.send_message(f"An unexpected error occurred: {e}", ephemeral=True)
+            print(f"An unexpected error occurred in the 'dm' command: {e}")
+            await interaction.response.send_message("An unexpected error occurred.", ephemeral=True)
 
     @dm.error
     async def dm_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
