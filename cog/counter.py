@@ -4,27 +4,29 @@ from discord import app_commands
 import json
 import os
 
+COUNTER_FILE = "data/counter.json"
+
 def load_counter_data():
-    """Loads counter data from a JSON file.
+    """Loads counter data from the JSON file.
 
     Returns:
         dict: A dictionary containing counter data for each guild.
     """
-    if os.path.exists('counter.json'):
+    if os.path.exists(COUNTER_FILE):
         try:
-            with open('counter.json', 'r') as f:
+            with open(COUNTER_FILE, 'r') as f:
                 return json.load(f)
         except json.JSONDecodeError:
-            return {} # Return empty dict if JSON is corrupted
+            return {}  # Return empty dict if JSON is corrupted
     return {}
 
 def save_counter_data(data):
-    """Saves counter data to a JSON file.
+    """Saves counter data to the JSON file.
 
     Args:
         data (dict): The counter data to save.
     """
-    with open('counter.json', 'w') as f:
+    with open(COUNTER_FILE, 'w') as f:
         json.dump(data, f, indent=4)
 
 class Counter(commands.Cog):
@@ -45,32 +47,32 @@ class Counter(commands.Cog):
 
     @app_commands.command(name="counter", description="Sets the channel for the counting game.")
     @app_commands.checks.has_permissions(administrator=True)
-    async def set_counter_channel(self, interaction: discord.Interaction, salon: discord.TextChannel):
+    async def set_counter_channel(self, interaction: discord.Interaction, channel: discord.TextChannel):
         """Sets the channel for counting.
 
         This command requires administrator permissions.
 
         Args:
             interaction (discord.Interaction): The interaction object.
-            salon (discord.TextChannel): The text channel to be used for counting.
+            channel (discord.TextChannel): The text channel to be used for counting.
         """
         guild_id = str(interaction.guild.id)
 
         if guild_id not in self.guild_counters:
             self.guild_counters[guild_id] = {"last_number": 0, "last_user_id": None}
 
-        self.guild_counters[guild_id]['counter_channel_id'] = salon.id
+        self.guild_counters[guild_id]['counter_channel_id'] = channel.id
         save_counter_data(self.guild_counters)
 
-        embed_compteur = discord.Embed(
-            title="Counter Configuration",
-            description=f"The counter has been set in {salon.mention}\nStart by sending the number 1!",
+        embed_counter = discord.Embed(
+            title="Counter Channel Set",
+            description=f"The counting channel has been set to {channel.mention}.\nStart by sending the number `1`!",
             color=discord.Color.green()
         )
 
-        await salon.send(embed=embed_compteur)
+        await channel.send(embed=embed_counter)
         await interaction.response.send_message(
-            f"Your counter has been set in {salon.mention}. Start by sending the number 1!", ephemeral=True
+            f"The counter has been set up in {channel.mention}. You can start counting now!", ephemeral=True
         )
 
     def get_counter_channel(self, guild_id: int) -> int | None:
