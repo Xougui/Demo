@@ -33,4 +33,5 @@ async def setup(bot: commands.Bot):
     Args:
         bot (commands.Bot): The bot instance.
     """
+    
     await bot.add_cog(Exemple(bot))
