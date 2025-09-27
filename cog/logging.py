@@ -8,8 +8,8 @@ class Logging(commands.Cog):
     def __init__(self, bot: commands.Bot):
         """Initializes the Logging cog."""
         self.bot = bot
-        self.log_channel_id = int(os.getenv("LOG_CHANNEL_ID"))
-        self.log_server_id = int(os.getenv("LOG_SERVER_ID"))
+        self.log_channel_id = int(os.getenv("LOG_CHANNEL_ID", "0"))
+        self.log_server_id = int(os.getenv("LOG_SERVER_ID", "0"))
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -37,7 +37,7 @@ class Logging(commands.Cog):
         log_embed.add_field(name="Server", value=guild.name, inline=True)
 
         for option in options:
-            log_embed.add_field(name=f"Option: {option.get('name')}", value=option.get('value'), inline=False)
+            log_embed.add_field(name=f"Option: {option.get('name')}", value=str(option.get('value')), inline=False)
 
         try:
             message = await interaction.original_response()
@@ -47,7 +47,7 @@ class Logging(commands.Cog):
             pass  # Interaction might not have a visible response
 
         log_channel = self.bot.get_channel(self.log_channel_id)
-        if log_channel and guild.id == self.log_server_id:
+        if log_channel:
             await log_channel.send(embed=log_embed)
 
 
