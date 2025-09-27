@@ -2,71 +2,100 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
+class TestCounter(commands.Cog):
+    """A cog that implements a simple counting game in a specific channel.
 
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
+    This version of the counter uses separate text files to store the
+    last number and the last user.
+    """
 
-class Test_Compteur(commands.Cog):  # essaye de mettre le nom du cog avc un MAJUSCULE au debut
+    def __init__(self, bot: commands.Bot):
+        """Initializes the TestCounter cog.
 
-    def __init__(self, bot):
+        Args:
+            bot (commands.Bot): The bot instance.
+        """
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Cog loaded : test_compteur")
+        """Called when the cog is ready."""
+        print("Cog loaded : test_counter")
 
-    def get_dernier_nombre(self):
+    def get_last_number(self) -> int:
+        """Gets the last counted number from 'compteur.txt'.
+
+        Returns:
+            int: The last number, or 0 if the file doesn't exist or is empty.
+        """
         try:
             with open('compteur.txt', 'r') as f:
-                contenu = f.read()
-                if contenu == '':
-                    dernier_nombre = 0
-                else:
-                    dernier_nombre = int(contenu)
+                content = f.read()
+                if content == '':
+                    return 0
+                return int(content)
         except FileNotFoundError:
-            dernier_nombre = 0
-        return dernier_nombre
+            return 0
 
-    def set_dernier_nombre(self, nombre):
+    def set_last_number(self, number: int):
+        """Saves the last counted number to 'compteur.txt'.
+
+        Args:
+            number (int): The number to save.
+        """
         with open('compteur.txt', 'w') as f:
-            f.write(str(nombre))
+            f.write(str(number))
 
-    def get_dernier_utilisateur(self):
+    def get_last_user(self) -> int | None:
+        """Gets the ID of the last user who counted from 'dernier_utilisateur.txt'.
+
+        Returns:
+            int | None: The user ID, or None if the file doesn't exist.
+        """
         try:
             with open('dernier_utilisateur.txt', 'r') as f:
-                dernier_utilisateur = int(f.read())
-        except FileNotFoundError:
-            dernier_utilisateur = None
-        return dernier_utilisateur
+                return int(f.read())
+        except (FileNotFoundError, ValueError):
+            return None
 
-    def set_dernier_utilisateur(self, utilisateur):
+    def set_last_user(self, user_id: int):
+        """Saves the ID of the last user who counted to 'dernier_utilisateur.txt'.
+
+        Args:
+            user_id (int): The user ID to save.
+        """
         with open('dernier_utilisateur.txt', 'w') as f:
-            f.write(str(utilisateur))
+            f.write(str(user_id))
 
     @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.channel.id == 1267467304623407167:  # ID du salon spécifique
-            if not message.author.bot:  # Ne pas compter les messages des bots
-                contenu = message.content
-                if contenu.isdigit():  # Vérifier si le message est un nombre
-                    nombre = int(contenu)
-                    dernier_nombre = self.get_dernier_nombre()  # Récupérer le dernier nombre du compteur
-                    dernier_utilisateur = self.get_dernier_utilisateur()  # Récupérer l'utilisateur précédent
-                    if dernier_nombre is None or (nombre == dernier_nombre + 1 and message.author.id != dernier_utilisateur):
-                        self.set_dernier_nombre(nombre)  # Mettre à jour le dernier nombre du compteur
-                        self.set_dernier_utilisateur(message.author.id)  # Mettre à jour l'utilisateur précédent
-                        await message.add_reaction('✅')  # Réagir avec un émoji si le nombre est correct
+    async def on_message(self, message: discord.Message):
+        """Handles the counting logic when a message is sent in the designated channel.
+
+        Args:
+            message (discord.Message): The message that was sent.
+        """
+        # Note: The channel ID is hardcoded here.
+        if message.channel.id == 1267467304623407167:
+            if not message.author.bot:
+                content = message.content
+                if content.isdigit():
+                    number = int(content)
+                    last_number = self.get_last_number()
+                    last_user = self.get_last_user()
+
+                    if number == last_number + 1 and message.author.id != last_user:
+                        self.set_last_number(number)
+                        self.set_last_user(message.author.id)
+                        await message.add_reaction('✅')
                     else:
-                        await message.delete()  # Supprimer le message si le nombre ne suit pas le précédent
+                        await message.delete()
                 else:
-                    await message.delete()  # Supprimer le message si ce n'est pas un nombre
+                    await message.delete()
 
-@bot.event
-async def setup_hook() -> None:
-    synced = await bot.tree.sync() #sync ici
-    print(f"Synced {len(synced)} commands")
+async def setup(bot: commands.Bot):
+    """Sets up the TestCounter cog.
 
-async def setup(bot):
-    await bot.add_cog(Test_Compteur(bot))
+    Args:
+        bot (commands.Bot): The bot instance.
+    """
+    await bot.add_cog(TestCounter(bot))

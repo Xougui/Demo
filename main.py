@@ -1,37 +1,60 @@
 import discord
 import random
+import os
 from discord.ext import commands, tasks
 from discord import app_commands
+from dotenv import load_dotenv
 
+load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")
+OWNER_ID = int(os.getenv("OWNER_ID"))
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 
-# Mettre les extentiions une par une ou créer une fonction qui les charge toutes automatiquement 
-# ici on les met une par une ( ne pas oublier la VIRGULE entre chaque cog )
+# List of cogs to load on startup
 EXTENSIONS = ("cog.mp",
-               "cog.exemple_cog",
-               "cog.sélecteur", 
-               "cog.button", 
-               "cog.test_compteur",
-                "cog.tests", 
-                "cog.Layout_exemple",
-                "cog.counter",
-                "cog.persistant")
+              "cog.exemple_cog",
+              "cog.selecteur",
+              "cog.button",
+              "cog.test_compteur",
+              "cog.Layout_exemple",
+              "cog.counter",
+              "cog.persistent")
 
 
 def isOwner(ctx):
-    return ctx.author.id == 1178647820052467823
+    """Checks if the command author is the owner of the bot.
+
+    Args:
+        ctx (commands.Context): The context of the command.
+
+    Returns:
+        bool: True if the author is the owner, False otherwise.
+    """
+    return ctx.author.id == OWNER_ID
 
 @bot.command()
 @commands.check(isOwner)
 async def start(ctx, secondes: int = 3):
+    """Starts the status changing task with a new interval.
+
+    This command can only be used by the bot owner.
+
+    Args:
+        ctx (commands.Context): The context of the command.
+        secondes (int, optional): The interval in seconds for the status change. Defaults to 3.
+    """
     change_status.change_interval(seconds=secondes)
 
 @tasks.loop(seconds=10)
 async def change_status():
-    status = ["mets tes statuts ici"]
+    """Changes the bot's presence periodically.
+
+    Cycles through a list of statuses and sets them as the bot's activity.
+    """
+    status = ["mets tes statuts ici", "par exemple !help", "ou autre chose"]
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(random.choice(status)))
 
 # -------------------------------------------------------------------------
@@ -39,29 +62,48 @@ async def change_status():
 
 @bot.tree.command(name="ping", description="Affiche le ping du bot (latence).")
 async def ping(interaction: discord.Interaction):
+    """Displays the bot's latency.
+
+    Args:
+        interaction (discord.Interaction): The interaction object.
+    """
     latency = bot.latency * 1000
     await interaction.response.send_message(f"Pong!🏓 J'ai une latence de {latency:.2f} millisecondes !")
 
 @bot.event
 async def on_message(message):
+    """Handles messages sent in the server.
+
+    If the bot is mentioned, it sends an embed with useful links.
+
+    Args:
+        message (discord.Message): The message object.
+    """
     if message.author == bot.user:
         return
 
     if bot.user in message.mentions:
         embed = discord.Embed(
-            title="Qui donc m'a mentionné ?",
+            title="Who mentioned me?",
             description=(
-                "Voici toute une liste de liens qui pourraient t'être utiles\n "
-                + "coucou mes bebous\n "
-                + "mamamia"
+                "Here is a list of links that might be useful to you!\n"
+                "- Link 1\n"
+                "- Link 2"
             ),
             color=discord.Color.blue()
         )
-        embed.set_footer(text="Créé avec amour par mon développeur @kadawatcha ?")
+        embed.set_footer(text="Created with love by my developer.")
         await message.channel.send(embed=embed)
 
 @bot.command()
 async def create_invite(ctx):
+    """Creates a permanent invite to the server.
+
+    This command can only be used by users with the 'manage_guild' permission.
+
+    Args:
+        ctx (commands.Context): The context of the command.
+    """
     if ctx.author.guild_permissions.manage_guild:
         invite = await ctx.guild.create_invite(max_age=0, max_uses=0)
         await ctx.send(f"Voici l'invitation pour rejoindre le serveur : {invite.url}")
@@ -72,6 +114,12 @@ async def create_invite(ctx):
 
 @bot.event
 async def on_command_error(ctx, error):
+    """Handles errors that occur during command execution.
+
+    Args:
+        ctx (commands.Context): The context of the command.
+        error (commands.CommandError): The error that was raised.
+    """
     if isinstance(error, commands.CommandNotFound):
         await ctx.send("Cette commande n'existe pas.")
     elif isinstance(error, commands.MissingRequiredArgument):
@@ -91,6 +139,11 @@ log_server_id = 1046104471089983568  # ID du serveur où envoyer les logs
 # Créez un événement qui écoute les commandes bot.tree
 @bot.event
 async def on_interaction(interaction):
+    """Logs application command usage to a specific channel.
+
+    Args:
+        interaction (discord.Interaction): The interaction object.
+    """
     # Vérifiez si l'interaction est une commande bot.tree
     if interaction.type == discord.InteractionType.application_command:
         # Récupérez les informations de la commande
@@ -126,6 +179,7 @@ async def on_interaction(interaction):
 
 @bot.event
 async def on_ready():
+    """Called when the bot is ready and online."""
     change_status.start()
     print('Bot prêt')
     print("Bot running with:")
@@ -134,9 +188,10 @@ async def on_ready():
 
 @bot.event # load des cogs
 async def setup_hook() -> None:
+    """Asynchronously sets up the bot by loading extensions and syncing the command tree."""
     for extension in EXTENSIONS:
         await bot.load_extension(extension)
     synced = await bot.tree.sync() # sync ici
     print(f"Synced {len(synced)} commands")
 
-bot.run('token')
+bot.run(TOKEN)
