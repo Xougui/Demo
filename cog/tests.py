@@ -1,28 +1,31 @@
 import discord
 from discord.ext import commands
-from discord import app_commands
-
-v = discord.ui.View
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
-
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
-
 
 class Invite(commands.Cog):
+    """A placeholder cog, likely for testing, with no commands.
 
-    def __init__(self, bot):
+    The name 'Invite' suggests it might be intended for functionality
+    related to creating or managing server invites, but it is currently empty.
+    """
+
+    def __init__(self, bot: commands.Bot):
+        """Initializes the Invite cog.
+
+        Args:
+            bot (commands.Bot): The bot instance.
+        """
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Cog loaded : sélecteur")
+        """Called when the cog is ready."""
+        print("Cog loaded : tests")
 
-@bot.event
-async def setup_hook() -> None:
-    synced = await bot.tree.sync() #sync ici
-    print(f"Synced {len(synced)} commands")
 
-async def setup(bot):
+async def setup(bot: commands.Bot):
+    """Sets up the Invite cog.
+
+    Args:
+        bot (commands.Bot): The bot instance.
+    """
     await bot.add_cog(Invite(bot))

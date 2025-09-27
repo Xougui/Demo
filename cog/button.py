@@ -3,62 +3,105 @@ from discord.ui import View
 from discord.ext import commands
 from discord import app_commands
 
-v = discord.ui.View
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
+class ButtonView(View):
+    """A view that displays several buttons with different styles.
 
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
+    The buttons disable themselves when clicked.
+    """
+    def __init__(self):
+        """Initializes the ButtonView."""
+        super().__init__()
 
-class Boutton(View):
     @discord.ui.button(
-        label="Blurple Button", 
+        label="Blurple Button",
         style=discord.ButtonStyle.blurple
     )
     async def blurple_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """A blurple button that disables itself on click.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+            button (discord.ui.Button): The button that was clicked.
+        """
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Gray Button", style=discord.ButtonStyle.gray)  # ou .secondary/.grey
+    @discord.ui.button(label="Gray Button", style=discord.ButtonStyle.gray)
     async def gray_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """A gray button that disables itself on click.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+            button (discord.ui.Button): The button that was clicked.
+        """
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Green Button", style=discord.ButtonStyle.green)  # ou .success
+    @discord.ui.button(label="Green Button", style=discord.ButtonStyle.green)
     async def green_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """A green button that disables itself on click.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+            button (discord.ui.Button): The button that was clicked.
+        """
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="Red Button", style=discord.ButtonStyle.red)  # ou .danger
+    @discord.ui.button(label="Red Button", style=discord.ButtonStyle.red)
     async def red_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """A red button that disables itself on click.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+            button (discord.ui.Button): The button that was clicked.
+        """
         button.disabled = True
         await interaction.response.edit_message(view=self)
 
-    @discord.ui.button(label="desactiver tout", style=discord.ButtonStyle.success)
-    async def color_changing_button(self, interaction: discord.Interaction, child: discord.ui.Button):
-        for child in self.children:
-            child.disabled = True
+    @discord.ui.button(label="Disable All", style=discord.ButtonStyle.success)
+    async def disable_all_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """A button that disables all other buttons in the view.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+            button (discord.ui.Button): The button that was clicked.
+        """
+        for child_button in self.children:
+            child_button.disabled = True
         await interaction.response.edit_message(view=self)
 
 class CogButton(commands.Cog):
+    """A cog for demonstrating discord.ui.Button functionality."""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
+        """Initializes the CogButton cog.
+
+        Args:
+            bot (commands.Bot): The bot instance.
+        """
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_ready(self):
+        """Called when the cog is ready."""
         print("Cog loaded : button")
-        
-    @bot.tree.command(name="button", description="jsp")
+
+    @app_commands.command(name="button", description="Sends a message with buttons.")
     async def button(self, interaction: discord.Interaction):
-        view = Boutton()
+        """Sends a message with a view containing several buttons.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+        """
+        view = ButtonView()
         view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/kadbot/tree/master"))
-        await interaction.response.send_message("Ce message a des boutons!", view=view)
+        await interaction.response.send_message("This message has buttons!", view=view)
 
-@bot.event
-async def setup_hook() -> None:
-    synced = await bot.tree.sync() # sync ici
-    print(f"Synced {len(synced)} commands")
+async def setup(bot: commands.Bot):
+    """Sets up the CogButton cog.
 
-async def setup(bot):
+    Args:
+        bot (commands.Bot): The bot instance.
+    """
     await bot.add_cog(CogButton(bot))

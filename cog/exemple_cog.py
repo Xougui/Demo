@@ -2,32 +2,35 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
+class Exemple(commands.Cog):
+    """An example cog to demonstrate basic cog structure."""
 
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
+    def __init__(self, bot: commands.Bot):
+        """Initializes the Exemple cog.
 
-class Exemple(commands.Cog): # essaye de mettre le nom du cog avc un MAJUSCULE au debut
-	
-    def __init__(self, bot):
+        Args:
+            bot (commands.Bot): The bot instance.
+        """
         self.bot = bot
-            
+
     @commands.Cog.listener()
     async def on_ready(self):
+        """Called when the cog is ready."""
         print("Cog loaded : cog_exemple")
 
-    # -------------------------------------------------------------------------
-    # -----------------------code ici------------------------------------------
-    @bot.tree.command(name="exemple", description="exemple")
-    async def ping(self,interaction: discord.Interaction): # toujours mettre "self" dans la parenthèse quand c'est dans un cog sinon ca crash.
+    @app_commands.command(name="exemple", description="An example command")
+    async def exemple(self, interaction: discord.Interaction):
+        """Responds with a simple 'Exemple' message.
+
+        Args:
+            interaction (discord.Interaction): The interaction object.
+        """
         await interaction.response.send_message("Exemple")
-    # -------------------------------------------------------------------------
 
-@bot.event
-async def setup_hook() -> None:
-    synced = await bot.tree.sync() # sync ici
-    print(f"Synced {len(synced)} commands")
+async def setup(bot: commands.Bot):
+    """Sets up the Exemple cog.
 
-async def setup(bot):
-    await bot.add_cog(Exemple(bot)) # changer "Exemple" par le nom de votre cog sinon ca marche pas
+    Args:
+        bot (commands.Bot): The bot instance.
+    """
+    await bot.add_cog(Exemple(bot))
