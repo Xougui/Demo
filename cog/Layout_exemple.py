@@ -2,18 +2,13 @@ import discord
 from discord.ext import commands
 from discord import ui, app_commands
 from discord.ui import LayoutView, Section, TextDisplay, Thumbnail, Separator
-import sqlite3
+
 from datetime import datetime, timedelta, timezone
 import os 
 
-import utils
-from utils import verif_emoji
-import config
 
 
 
-
-color = config.couleur
 
 
 class Mon_bouton(ui.Button):
@@ -30,7 +25,7 @@ class Reactionsv2(LayoutView):
         super().__init__(timeout=None)
 
 
-        container = ui.Container(accent_color=color)
+        container = ui.Container(accent_color=discord.Color.blurple())
 
         text_img_section = Section(ui.TextDisplay("This is a test section."), accessory=Mon_bouton())
         container.add_item(text_img_section)
@@ -43,12 +38,10 @@ class Reactionsv2(LayoutView):
 
 
 class Reactions(commands.Cog):
-    def __init__(self, bot:commands.Bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.db_file = 'bdd/reactions.db'
-        # self.init_db()
-
-    @app_commands.command(name=macmvv2", description="Configure le module d'auto-réactions")
+ 
+    @app_commands.command(name="Test-layout", description="Embed v2")
     @app_commands.guild_only()
     async def auto_reacts(self, interaction: discord.Interaction):
         await interaction.response.defer()

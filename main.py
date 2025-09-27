@@ -6,7 +6,20 @@ from discord import app_commands
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-EXTENSIONS = ("cog.mp", "cog.exemple_cog", "cog.sélecteur", "cog.button", "cog.test_compteur", "cog.tests")  # Spécifie le chemin avec le sous-dossier "cog"
+
+
+# Mettre les extentiions une par une ou créer une fonction qui les charge toutes automatiquement 
+# ici on les met une par une ( ne pas oublier la VIRGULE entre chaque cog )
+EXTENSIONS = ("cog.mp",
+               "cog.exemple_cog",
+               "cog.sélecteur", 
+               "cog.button", 
+               "cog.test_compteur",
+                "cog.tests", 
+                "cog.Layout_exemple",
+                "cog.counter",
+                "cog.persistant")
+
 
 def isOwner(ctx):
     return ctx.author.id == 1178647820052467823
