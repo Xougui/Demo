@@ -71,11 +71,11 @@ class ButtonView(View):
             child_button.disabled = True
         await interaction.response.edit_message(view=self)
 
-class CogButton(commands.Cog):
+class ButtonExamples(commands.Cog):
     """A cog for demonstrating discord.ui.Button functionality."""
 
     def __init__(self, bot: commands.Bot):
-        """Initializes the CogButton cog.
+        """Initializes the ButtonExamples cog.
 
         Args:
             bot (commands.Bot): The bot instance.
@@ -85,23 +85,28 @@ class CogButton(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Called when the cog is ready."""
-        print("Cog loaded : button")
+        print("Cog loaded: ButtonExamples")
 
-    @app_commands.command(name="button", description="Sends a message with buttons.")
-    async def button(self, interaction: discord.Interaction):
+    @app_commands.command(name="buttons", description="Shows examples of interactive buttons.")
+    async def buttons(self, interaction: discord.Interaction):
         """Sends a message with a view containing several buttons.
 
         Args:
             interaction (discord.Interaction): The interaction object.
         """
         view = ButtonView()
-        view.add_item(discord.ui.Button(label="URL Button", style=discord.ButtonStyle.link, url="https://github.com/Xougui/demobot/tree/master"))
-        await interaction.response.send_message("This message has buttons!", view=view)
+        # A URL button does not have a callback and does not require a view to be persistent
+        view.add_item(discord.ui.Button(
+            label="URL Button",
+            style=discord.ButtonStyle.link,
+            url="https://github.com/Xougui/demobot"
+        ))
+        await interaction.response.send_message("Here are some examples of different buttons:", view=view)
 
 async def setup(bot: commands.Bot):
-    """Sets up the CogButton cog.
+    """Sets up the ButtonExamples cog.
 
     Args:
         bot (commands.Bot): The bot instance.
     """
-    await bot.add_cog(CogButton(bot))
+    await bot.add_cog(ButtonExamples(bot))
