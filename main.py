@@ -51,7 +51,7 @@ async def change_status():
 
     Cycles through a list of statuses and sets them as the bot's activity.
     """
-    status = ["mets tes statuts ici"]
+    status = ["mets tes statuts ici", "par exemple !help", "ou autre chose"]
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(random.choice(status)))
 
 # -------------------------------------------------------------------------
