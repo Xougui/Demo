@@ -3,7 +3,7 @@ from discord.ui import View, Select
 from discord.ext import commands
 from discord import app_commands
 
-class SelecteurView(View):
+class SelectorView(View):
     """A view that contains a select menu for users to interact with.
 
     This select menu demonstrates dynamic option adding and disabling.
@@ -54,11 +54,11 @@ class SelecteurView(View):
         await interaction.followup.send(f"You chose: {', '.join(select.values)}", ephemeral=True)
 
 
-class CogSelecteur(commands.Cog):
+class CogSelector(commands.Cog):
     """A cog for demonstrating discord.ui.Select functionality."""
 
     def __init__(self, bot: commands.Bot):
-        """Initializes the CogSelecteur cog.
+        """Initializes the CogSelector cog.
 
         Args:
             bot (commands.Bot): The bot instance.
@@ -68,23 +68,23 @@ class CogSelecteur(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Called when the cog is ready."""
-        print("Cog loaded : selecteur")
+        print("Cog loaded : selector")
 
-    @app_commands.command(name="selecteur", description="Sends a message with a select menu.")
-    async def selecteur_command(self, interaction: discord.Interaction):
+    @app_commands.command(name="selector", description="Sends a message with a select menu.")
+    async def selector_command(self, interaction: discord.Interaction):
         """Sends a message with a view containing a select menu.
 
         Args:
             interaction (discord.Interaction): The interaction object.
         """
-        view = SelecteurView()
+        view = SelectorView()
         await interaction.response.send_message("This message has a select menu:", view=view)
 
 
 async def setup(bot: commands.Bot):
-    """Sets up the CogSelecteur cog.
+    """Sets up the CogSelector cog.
 
     Args:
         bot (commands.Bot): The bot instance.
     """
-    await bot.add_cog(CogSelecteur(bot))
+    await bot.add_cog(CogSelector(bot))
