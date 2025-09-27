@@ -60,6 +60,14 @@ async def on_message(message):
         embed.set_footer(text="Créé avec amour par mon développeur @kadawatcha ?")
         await message.channel.send(embed=embed)
 
+@bot.command()
+async def create_invite(ctx):
+    if ctx.author.guild_permissions.manage_guild:
+        invite = await ctx.guild.create_invite(max_age=0, max_uses=0)
+        await ctx.send(f"Voici l'invitation pour rejoindre le serveur : {invite.url}")
+    else:
+        await ctx.send("Vous n'avez pas la permission de créer des invitations pour ce serveur.")
+
 # -------------------------------------------------------------------------
 
 @bot.event
