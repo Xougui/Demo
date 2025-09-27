@@ -11,8 +11,11 @@ def load_counter_data():
         dict: A dictionary containing counter data for each guild.
     """
     if os.path.exists('counter.json'):
-        with open('counter.json', 'r') as f:
-            return json.load(f)
+        try:
+            with open('counter.json', 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            return {} # Return empty dict if JSON is corrupted
     return {}
 
 def save_counter_data(data):
@@ -157,7 +160,7 @@ class Counter(commands.Cog):
             if number == last_number + 1 and message.author.id != last_user:
                 self.set_last_number(message.guild.id, number)
                 self.set_last_user(message.guild.id, message.author.id)
-                await message.add_reaction('<a:check:1328035248511909992>')
+                await message.add_reaction('✅')
             else:
                 await message.delete()
         else:
